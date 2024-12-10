@@ -48,4 +48,49 @@ public class CantecDAO {
 		return cantece;
 
 	}
+
+	public static void update(Cantec cantec) throws ClassNotFoundException, SQLException {
+		// Conexiune
+		Connection connection = DataBaseHelper.getConnection();
+
+		// Update
+		String query = "update cantec set titlu=?, autor=?, linkPartitura=?, versuri=?, nrVoturi=? where id=?";
+
+		// Prepared statement
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setString(1, cantec.getTitle());
+		preparedStatement.setString(2, cantec.getAuthor());
+		preparedStatement.setString(3, cantec.getScoreLink());
+		preparedStatement.setString(4, cantec.getLyrics());
+		preparedStatement.setInt(5, cantec.getNumberOfVotes());
+		preparedStatement.setInt(6, cantec.getId());
+
+		// Execute statement
+		preparedStatement.executeUpdate();
+
+		DataBaseHelper.closeConnection();
+
+	}
+
+	public static void create(Cantec c) throws ClassNotFoundException, SQLException {
+		String create = "insert into cantec(titlu,autor,linkPartitura,versuri,nrVoturi) values (?,?,?,?,?)";
+		Connection connection = DataBaseHelper.getConnection();
+		PreparedStatement statement = connection.prepareStatement(create);
+		statement.setString(1, c.getTitle());
+		statement.setString(2, c.getAuthor());
+		statement.setString(3, c.getScoreLink());
+		statement.setString(4, c.getLyrics());
+		statement.setInt(5, c.getNumberOfVotes());
+		statement.executeUpdate();
+		DataBaseHelper.closeConnection();
+	}
+
+	public static void delete(int id) throws ClassNotFoundException, SQLException {
+		String query = "delete from cantec where id=" + id;
+		Connection connection = DataBaseHelper.getConnection();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate(query);
+		DataBaseHelper.closeConnection();
+	}
+
 }

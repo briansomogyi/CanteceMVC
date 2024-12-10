@@ -5,8 +5,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ro.emanuel.cantece.dao.CantecDAO;
@@ -48,4 +51,32 @@ public class SongsController {
 
 		return "/songEdit.jsp";
 	}
+
+	@PostMapping("songs/edit")
+	public String saveSong(@ModelAttribute("song") Cantec cantec, Model model, BindingResult result)
+			throws ClassNotFoundException, SQLException {
+		CantecDAO.update(cantec);
+
+		return "redirect:/songs";
+	}
+
+	@GetMapping("/songs/createSong")
+	public String createSong(Model model) {
+		Cantec cantec = new Cantec();
+		model.addAttribute("newSong", cantec);
+		return "/createSong.jsp";
+	}
+
+	@PostMapping("/songs/saveNewSong")
+	public String saveNewSong(@ModelAttribute("newSong") Cantec cantec) throws ClassNotFoundException, SQLException {
+		CantecDAO.create(cantec);
+		return "redirect:/songs";
+	}
+
+	@GetMapping("/song/delete/{id}")
+	public String deleteSong(@PathVariable int id) throws ClassNotFoundException, SQLException {
+		CantecDAO.delete(id);
+		return "redirect:/songs";
+	}
+
 }
