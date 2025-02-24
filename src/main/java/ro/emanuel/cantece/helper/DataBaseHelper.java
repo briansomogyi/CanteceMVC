@@ -10,7 +10,7 @@ public class DataBaseHelper {
 
 	public static Connection getConnection() throws SQLException, ClassNotFoundException {
 		if (connection == null || connection.isClosed()) {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 
 			Properties connectionProperties = new Properties();
 			connectionProperties.put("user", "root");

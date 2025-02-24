@@ -73,7 +73,7 @@ public class SongsController {
 		return "redirect:/songs";
 	}
 
-	@GetMapping("/song/delete/{id}")
+	@GetMapping("/songs/delete/{id}")
 	public String deleteSong(@PathVariable int id) throws ClassNotFoundException, SQLException {
 		CantecDAO.delete(id);
 		return "redirect:/songs";
